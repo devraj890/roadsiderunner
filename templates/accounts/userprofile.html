@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% block title %} User Profile | Roadside-Runner {% endblock title %}
+
+{% block body %}
+{% load static %}
+<section class="userprofile">
+    <div class="userprofile-head">
+        <h2 class="heading">Your Profile</h2>
+    </div>
+
+    <div class="userprofile-container">
+        <div class="userprofile-block">
+            {% if userprofile_data.profile_picture %}
+            <div class="userprofile-image">
+                <img src="{{userprofile_data.profile_picture.url}}">
+            </div>
+            {% endif %}
+            
+            <div class="userprofile-details">
+                <h3>First Name</h3>
+                <p>{{user_data.first_name}}</p>
+            </div>
+
+            <div class="userprofile-details">
+                <h3>Last Name</h3>
+                <p>{{user_data.last_name}}</p>
+            </div>
+
+            <div class="userprofile-details">
+                <h3>Phone</h3>
+                <p>{{userprofile_data.phone}}</p>
+            </div>
+
+            <div class="userprofile-details">
+                <h3>Email</h3>
+                <p>{{user_data.email}}</p>
+            </div>
+
+            <div class="userprofile-details">
+                <h3>Username</h3>
+                <p>{{user_data.username}}</p>
+            </div>
+
+            <div class="userprofile-details">
+                <h3>Address</h3>
+                <p>{{userprofile_data.address}}</p>
+            </div>
+
+            <div class="userprofile-details">
+                <h3>City</h3>
+                <p>{{userprofile_data.city}}</p>
+            </div>
+
+            <div class="userprofile-details">
+                <h3>Pin-Code</h3>
+                <p>{{userprofile_data.postal_code}}</p>
+            </div>
+
+            <div class="userprofile-details"> 
+                <div class="update-pro">
+                    <a href="{% url 'update_profile' %}" class="btn-update">Upate Your Profile</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock body %}

@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% block title %} Service | Breakdown {% endblock title %}
+{% block serviceactive %} active {% endblock serviceactive %}
+
+{% block body %}
+{% load static %}
+    <section class="service-request" id="services">
+        <div class="service-request-head">
+            <h2 class="heading">Services</h2>
+            <p>Let us help you get back on the road & BACK TO LIFE!</p>
+        </div>
+
+        <div class="service-request-container">
+            <div class="service-request-box">
+                <div class="service-request-icon">
+                    <i class="fa-solid fa-key icon-tada"></i>
+                </div>
+                <h3>Lockout</h3>
+                <p>If you are locked out of your car, truck, van or SUV, we can come out and unlock your vehicle.</p>
+                <div class="service-request-re">
+                    <a href="{% url 'location' %}" class="btn-service-request">Choose Location</a>
+                </div>
+            </div>
+
+            <div class="service-request-box">
+                <div class="service-request-icon">
+                    <i class="fa-solid fa-car-burst icon-tada"></i>
+                </div>
+                <h3>Burst-out</h3>
+                <p>If your vehicle are burst and need to Service Immediately? We can come and do servicing. </p>
+                <div class="service-request-re">
+                    <a href="{% url 'location' %}" class="btn-service-request">Choose Location</a>
+                </div>
+            </div>
+
+            <div class="service-request-box">
+                <div class="service-request-icon">
+                    <i class="fa-solid fa-car-battery icon-tada"></i>
+                </div>
+                <h3>Jump Starts</h3>
+                <p> if your car battery is Dead ? Need a jump start? We can come and get you back on the road.</p>
+                <div class="service-request-re">
+                    <a href="{% url 'location' %}" class="btn-service-request">Choose Location</a>
+                </div>
+            </div>
+
+            <div class="service-request-box">
+                <div class="service-request-icon">
+                    <i class="fa-solid fa-truck-ramp-box icon-tada"></i>
+                </div>
+                <h3>Tow-Service</h3>
+                <p>If your vehicle are need to towing ? We can help! We can come out and tow your vehicle.</p>
+                <div class="service-request-re">
+                    <a href="{% url 'location' %}" class="btn-service-request">Choose Location</a>
+                </div>
+            </div>
+            <div class="service-request-box">
+                <div class="service-request-icon">
+                    <i class="fa-solid fa-car icon-tada"></i>
+                </div>
+                <h3>Tire-Service</h3>
+                <p>If your tire Flat or a tire blown out? We can help! We can come out to you and put on your spare tire.</p>
+                <div class="service-request-re">
+                    <a href="{% url 'location' %}" class="btn-service-request">Choose Location</a>
+                </div>
+            </div>
+            <div class="service-request-box">
+                <div class="service-request-icon">
+                    <i class="fa-solid fa-gear icon-tada"></i>
+                </div>
+                <h3>Servicing</h3>
+                <p>If you need to servicing your vehicle on the Roadside! We can come out and service out.</p>
+                <div class="service-request-re">
+                    <a href="{% url 'location' %}" class="btn-service-request">Choose Location</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+{% endblock body %}

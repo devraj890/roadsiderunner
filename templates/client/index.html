@@ -1,0 +1,638 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RoadSideRunner</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/all.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/bootstrap-grid.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+
+    <!-- box icon -->
+    <!-- for online -->
+    <!-- <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" /> -->
+
+    <!-- for ofline -->
+    <!-- <link rel="stylesheet" href="css/boxicons.css">
+    <link rel="stylesheet" href="css/boxicons.min.css">
+    <link rel="stylesheet" href="css/transformations.css">
+    <link rel="stylesheet" href="css/animations.css"> -->
+
+    
+
+
+    <!-- scroll revel file -->
+    <!-- <script src="js/scrollreveal.js"></script> -->
+
+</head>
+
+<body>
+    <!-- header start -->
+    <header class="header">
+        <div class="logo">
+            {% comment %} <a href="#"><img src="{% static 'images/Tools_40px.png' %}"/>RoadSide-Runner<img src="{% static 'images/gas_station_40px.png' %}"/></a> {% endcomment %}
+            <a href="{% url 'home' %}"><i class="fa-solid fa-screwdriver-wrench"></i>RoadSide-Runner<i class="fa-solid fa-gas-pump"></i></a>
+        </div>
+
+        <i class="fa-solid fa-bars" id="menu-icon" onclick="myFunction()"></i>
+
+        <div class="con-head">
+            <nav class="navbar">
+                {% if user.is_authenticated %}
+                    {% if user.userprofile.user_type == 'user' %}
+                    <a href="#home" class="active">Home</a>
+                    <a href="#about">About</a>
+                    <a href="#services">Services</a>
+                    <a href="{% url 'servicerequest' %}" class="{% if request.path == '/accounts/servicerequest' %}active{% endif %}">Request</a>
+                    {% comment %} <a href="{% url 'booking' %}" class="{% if request.path == '/accounts/booking' %}active{% endif %}">Booking</a> {% endcomment %}
+                    <a href="{% url 'feedback' %}" class="{% if request.path == '/feedback' %}active{% endif %}">feedback</a>
+                    <a href="#client">Our-Client</a>
+                    <a href="#contact">Contact</a>
+                    {% endif %}
+
+                    {% if user.userprofile.user_type == 'fual_station' %}
+                    <a href="#home" class="active">Home</a>
+                    <a href="#about">About</a>
+                    <a href="{% url 'service' %}">Services</a>
+                    <a href="{% url 'servicerequest' %}" class="{% if request.path == '/accounts/servicerequest' %}active{% endif %}">Request</a>
+                    {% comment %} <a href="#">Booking</a> {% endcomment %}
+                    {% comment %} <a href="#">feedback</a> {% endcomment %}
+                    <a href="#client">Our-Client</a>
+                    <a href="#contact">Contact</a>
+                    {% endif %}
+
+                    {% if user.userprofile.user_type == 'mechanic' %}
+                    <a href="#home" class="active">Home</a>
+                    <a href="#about">About</a>
+                    <a href="{% url 'service' %}">Services</a>
+                    <a href="{% url 'servicerequest' %}" class="{% if request.path == '/accounts/servicerequest' %}active{% endif %}">Request</a>
+                    {% comment %} <a href="#">Booking</a> {% endcomment %}
+                    {% comment %} <a href="#">feedback</a> {% endcomment %}
+                    <a href="#client">Our-Client</a>
+                    <a href="#contact">Contact</a>
+                    {% endif %}
+                    {% else %}
+                    <a href="#home" class="active">Home</a>
+                    <a href="#about">About</a>
+                    <a href="#services">Services</a>
+                    <a href="#client">Our-Client</a>
+                    <a href="#contact">Contact</a>
+                {% endif %}
+            </nav>
+
+             {% comment %} <div class="btn-group">
+                    <button type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        Welcome {{request.user}}
+                    </button>
+                    <ul class="dropdown-menu">
+                      <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
+                    </ul>
+                  </div> {% endcomment %}
+
+            <div class="log-info">
+                {% if user.is_authenticated %}
+                <ul class="navbar-nav mr-2">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href='#' id="navbarDropdown" role="button"
+                            data-bs-toggle="dropdown">
+                            Welcome - {{request.user}}
+                        </a>
+                        <div class="dropdown-menu log-out" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="{% url 'userprofile' %}">Your Profile</a>
+                            <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+                        </div>
+                    </li>
+                </ul>
+                {% else %}
+
+                <a href="{% url 'login' %}" class="btn btn-log btn-lg">Login</a>
+                <a href="{% url 'register' %}" class="btn btn-log btn-lg">Signup</a>
+
+                {% endif %}
+            </div>
+        </div>
+    </header>
+    <!-- header end -->
+
+    <!-- for back to top span start -->
+    <span id="top"></span>
+    <!-- for back to top span end -->
+
+    {% for message in messages %}
+    <div class="alt-aler">
+    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+        <strong>
+            {% if message.tags == "success" %}
+                Success : 
+            {% elif message.tags == "danger" %}
+                Error : 
+            {% endif %}
+            </strong>  {{ message }}.
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    </div>
+    {% endfor %}
+
+    <!-- section for home start -->
+    <section class="home" id="home">
+        <!-- Slideshow container -->
+        <div class="slideshow-container">
+            <!-- Full-width images with number and caption text -->
+            <div class="mySlides fade">
+                <img src="{% static 'images/slides/brackdown-slide1.jpg' %}">
+            </div>
+
+            <div class="mySlides fade">
+                <img src="{% static 'images/slides/fuel-slide1.jpg' %}">
+            </div>
+
+            <div class="mySlides fade">
+                <img src="{% static 'images/slides/lockout-slide1.jpg' %}">
+            </div>
+            <div class="mySlides fade">
+                <img src="{% static 'images/slides/machanic-slide1.jpg' %}">
+            </div>
+            <div class="mySlides fade">
+                <img src="{% static 'images/slides/fuel-slide4.jpg' %}">
+            </div>
+            <div class="mySlides fade">
+                <img src="{% static 'images/slides/fuel-slide5.jpg' %}">
+            </div>
+            <div class="mySlides fade">
+                <img src="{% static 'images/slides/tow-slide1.jpg' %}">
+            </div>
+            <div class="mySlides fade">
+                <img src="{% static 'images/slides/worker-slide1.jpg' %}">
+            </div>
+            <div class="mySlides fade">
+                <img src="{% static 'images/slides/breakdown-slide2.jpg' %}">
+            </div>
+            <div class="mySlides fade">
+                <img src="{% static 'images/slides/fuel-slide2.jpg' %}">
+            </div>
+            <div class="mySlides fade">
+                <img src="{% static 'images/slides/tow-slide2.jpg' %}">
+            </div>
+            <div class="mySlides fade">
+                <img src="{% static 'images/slides/fuel-slide3.jpg' %}">
+            </div>
+            <div class="mySlides fade">
+                <img src="{% static 'images/slides/fuel-slide6.jpg' %}">
+            </div>
+        </div>
+    </section>
+    <!-- section for home end -->
+
+    <!-- section for about start -->
+    <section class="about" id="about">
+        <div class="about-img">
+            <img src="{% static 'images/fuel-station.png' %}">
+        </div>
+        <div class="about-content">
+            <h2 class="heading"> About </h2>
+            <p>The Fuel Delivery on Demand and On Road Vehicle Breakdown Assistance systems offer a comprehensive solution for the needs of vehicle owners while on the road. The automobile industry has seen rapid growth in recent years, leading to an increase
+                in fuel consumption. Unfortunately, there may be situations where a vehicle runs out of fuel, making it difficult for the owner to push the vehicle to the nearest fuel station. In other cases, individuals may be in unfamiliar locations
+                and unaware of nearby gas stations to refuel their vehicles. The Fuel Delivery on Demand system addresses these issues by providing a platform for users to book fuel at any location and time. The user-friendly application allows users
+                to search for fuel stations by either locality or station name and make their bookings online. <br> On the other hand, the On Road Vehicle Breakdown system provides a solution for individuals who encounter mechanical issues while on the
+                road. The system connects registered users with trusted mechanics, ensuring that only legally approved mechanics are enlisted. This helps to prevent individuals from falling prey to unscrupulous mechanics who may charge exorbitant fees
+                for their services. The system also includes a feedback system, where users can provide updates about the services they received. This helps to maintain the quality of services provided by the mechanics enlisted in the system.
+            </p>
+            <div class="re-more">
+                <a href="{% url 'about' %}" class="btn-read">Read More</a>
+            </div>
+        </div>
+    </section>
+    <!-- section for about end -->
+
+    <!-- section for services start -->
+    {% if user.is_authenticated %}
+        {% if user.userprofile.user_type == "user" %}
+        <section class="services" id="services">
+            <div class="service-head">
+                <h2 class="heading">Services</h2>
+            </div>
+
+            <div class="service-container">
+                <!-- <div class="service-box">
+                    <div class="service-icon">
+                        <i class="fa-solid fa-key icon-tada"></i>
+                    </div>
+                    <h3>Service Name</h3>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet nam minima, est ab cum deleniti totam </p>
+                    <div class="service-re">
+                        <a href="#" class="btn-service">Request Service</a>
+                    </div>
+                </div> -->
+
+                <div class="service-box">
+                    <div class="service-icon">
+                        <i class="fa-solid fa-screwdriver-wrench icon-tada"></i>
+                    </div>
+                    <h3>Break-Down</h3>
+                    <p>We can provide any vehicle Services like: Vehicle Towing, Lockout, Tire Service, Jump start, engine problem and any of the vehicle problem on the roadside with the help of Registerd Mechanics. and can help of the user.</p>
+                    <div class="service-re">
+                        <a href="{% url 'breakdown' %}" class="btn-service">Request Service</a>
+                    </div>
+                </div>
+
+                <!-- <div class="service-box">
+                    <div class="service-icon">
+                        <i class="fa-solid fa-car-battery icon-tada"></i>
+                    </div>
+                    <h3>Service Name</h3>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet nam minima, est ab cum deleniti totam </p>
+                    <div class="service-re">
+                        <a href="#" class="btn-service">Request Service</a>
+                    </div>
+                </div> -->
+
+                <div class="service-box">
+                    <div class="service-icon">
+                        <i class="fa-solid fa-gas-pump icon-tada"></i>
+                    </div>
+                    <h3>Fuel-Delivery</h3>
+                    <p>We can provide any types of Fuel like: Diesel, Petrol, CNG Gas and other of the fuel in the vehicle on the roadside. we can deliver the fuel on demand of the user with the help of fuel tank by Registerd Fuel Station. </p>
+                    <div class="service-re">
+                        <a href="{% url 'fual' %}" class="btn-service">Request Service</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        {% endif %}
+        {% else %}
+        <section class="services" id="services">
+            <div class="service-head">
+                <h2 class="heading">Services</h2>
+            </div>
+
+            <div class="service-container">
+                <!-- <div class="service-box">
+                    <div class="service-icon">
+                        <i class="fa-solid fa-key icon-tada"></i>
+                    </div>
+                    <h3>Service Name</h3>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet nam minima, est ab cum deleniti totam </p>
+                    <div class="service-re">
+                        <a href="#" class="btn-service">Request Service</a>
+                    </div>
+                </div> -->
+
+                <div class="service-box">
+                    <div class="service-icon">
+                        <i class="fa-solid fa-screwdriver-wrench icon-tada"></i>
+                    </div>
+                    <h3>Break-Down</h3>
+                    <p>We can provide any vehicle Services like: Vehicle Towing, Lockout, Tire Service, Jump start, engine problem and any of the vehicle problem on the roadside with the help of Registerd Mechanics. and can help of the user.</p>
+                    <div class="service-re">
+                        <a href="{% url 'breakdown' %}" class="btn-service">Request Service</a>
+                    </div>
+                </div>
+
+                <!-- <div class="service-box">
+                    <div class="service-icon">
+                        <i class="fa-solid fa-car-battery icon-tada"></i>
+                    </div>
+                    <h3>Service Name</h3>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet nam minima, est ab cum deleniti totam </p>
+                    <div class="service-re">
+                        <a href="#" class="btn-service">Request Service</a>
+                    </div>
+                </div> -->
+
+                <div class="service-box">
+                    <div class="service-icon">
+                        <i class="fa-solid fa-gas-pump icon-tada"></i>
+                    </div>
+                    <h3>Fuel-Delivery</h3>
+                    <p>We can provide any types of Fuel like: Diesel, Petrol, CNG Gas and other of the fuel in the vehicle on the roadside. we can deliver the fuel on demand of the user with the help of fuel tank by Registerd Fuel Station. </p>
+                    <div class="service-re">
+                        <a href="{% url 'fual' %}" class="btn-service">Request Service</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    {% endif %}
+    <!-- section for services end -->
+
+    <!-- section for clients testimoniol start -->
+    <section class="client" id="client">
+        <div class="client-head">
+            <h2 class="heading">Our-Clients</h2>
+        </div>
+
+        <div class="client-container">
+            <div id="testimonial" class="carousel slide carousel-fade" data-bs-ride="carousel">
+                <ol class="carousel-indicators">
+                    <li data-bs-target="#testimonial" data-bs-slide-to="0" class="active" aria-current="true"></li>
+                    {% for i in range %}
+                        <li data-bs-target="#testimonial" data-bs-slide-to="{{i}}"></li>
+                    {% endfor %}
+                    {% comment %} <li data-bs-target="#testimonial" data-bs-slide-to="2" aria-label="Third slide"></li> {% endcomment %}
+                </ol>
+                <div class="carousel-inner slide-container">
+                    <div class="carousel-item active mSlides">
+                    {% for feed in feed %}
+                        <p><q><em>{{feed.message}}</em></q></p>
+                        <p class="author"><strong>- {{feed.name}}</strong></p>
+                        <p class="feed">
+                            {% if feed.rating == 1 %}
+                            <i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i>
+                            {% elif feed.rating == 2 %}
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i>
+                            {% elif feed.rating == 3 %}
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i>
+                            {% elif feed.rating == 4 %}
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i>
+                            {% elif feed.rating == 5 %}
+                            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                            {% else %}
+                            <i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i>
+                            {% endif %}
+                            
+
+                            {% comment %} {{feed.rating}} {% endcomment %}
+                            {% comment %} <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i> {% endcomment %}
+
+                            {% comment %} <i class="{% if feed.rating == 1%} fa-solid fa-star {% else %}
+                            fa-regular fa-star {% endif %}"></i>
+                            <i class="{% if feed.rating == 2%} fa-solid fa-star {% else %}
+                            fa-regular fa-star {% endif %}"></i>
+                            <i class="{% if feed.rating == 3%} fa-solid fa-star {% else %}
+                            fa-regular fa-star {% endif %}"></i>
+                            <i class="{% if feed.rating == 4%} fa-solid fa-star {% else %}
+                            fa-regular fa-star {% endif %}"></i>
+                            <i class="{% if feed.rating == 5%} fa-solid fa-star {% else %}
+                            fa-regular fa-star {% endif %}"></i> {% endcomment %}
+                        </p>
+                    {% if forloop.counter > 0 and not forloop.last %}
+                    </div>
+                    <div class="carousel-item mSlides">   
+                    {% endif %}
+                    {% endfor %}
+                    </div>
+                    {% comment %} <div class="carousel-item mSlides">
+                        <p><q><em>CONSULTCORP helped me launch my idea in only 3 months! If there was not for CONSULTCORP team, I would probably not succeed.</em></q></p>
+                        <p class="author"><strong>- Anne Johnson, Founder of COMPANY-Y</strong></p>
+                        <p class="feed"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i></p>
+                    </div>
+                    <div class="carousel-item mSlides">
+                        <p><q><em>The team at CONSULTCORP will help you steer your idea in the right direction, reducing all the risks you might encounter on your own! They surely did mine.</em></q></p>
+                        <p class="author"><strong>- Dean Doe, Founder of COMPANY-Z</strong></p>
+                        <p class="feed"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></p>
+                    </div> {% endcomment %}
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#testimonial" data-bs-slide="prev">
+                                <span class="prev">❮</span>
+                            </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#testimonial" data-bs-slide="next">
+                                <span class="next">❯</span>
+                            </button>
+            </div>
+        </div>
+    </section>
+    <!-- section for clients testimoniol end -->
+
+    <!-- section for contact start -->
+    <section class="contact" id="contact">
+        <div class="contact-head">
+            <h2 class="heading">Contact Us</h2>
+        </div>
+
+        <div class="contact-container">
+            <!-- contact details -->
+            <div class="contact-details">
+                <div class="contact-box">
+                    <div class="contact-icon">
+                        <i class="fa-solid fa-location-dot"></i>
+                    </div>
+                    <div class="contact-text">
+                        <h3>Address</h3>
+                        <p>46/71 Rishi Nagar Ujjain 456000</p>
+                    </div>
+                </div>
+                <div class="contact-box">
+                    <div class="contact-icon">
+                        <i class="fa-solid fa-phone"></i>
+                    </div>
+                    <div class="contact-text">
+                        <h3>Phone</h3>
+                        <a href="tel:+919876543210">9876543210</a>
+                    </div>
+                </div>
+                <div class="contact-box">
+                    <div class="contact-icon">
+                        <i class="fa-solid fa-envelope"></i>
+                    </div>
+                    <div class="contact-text">
+                        <h3>Email</h3>
+                        <a href="mailto:info@oroadva.com">info@oroadva.com</a>
+                    </div>
+                </div>
+                <div class="social-media">
+                    <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#"><i class="fa-brands fa-twitter"></i></a>
+                    <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                </div>
+                <div class="map">
+                    {% comment %} <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7337.192100984757!2d75.80412799891378!3d23.148436009464564!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x396373e6ad80308d%3A0x37663fdd74e2c201!2sD-Consultancy!5e0!3m2!1sen!2sin!4v1678043134002!5m2!1sen!2sin"
+                        allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe> {% endcomment %}
+                    {% comment %} <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3669.932477917327!2d75.89329901489207!3d23.099567484914168!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39630d60c0c92465%3A0x3814ed48f9340f85!2sMIT%20Group%20of%20Institutes%20%2C%20Ujjain!5e0!3m2!1sen!2sin!4v1680904682932!5m2!1sen!2sin" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe> {% endcomment %}
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d229.28716368745356!2d75.81128475721924!3d23.148488301937537!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x396373814f5f4293%3A0xbe4079ece93f0b5e!2sRoadSideRunner!5e0!3m2!1sen!2sin!4v1681395319410!5m2!1sen!2sin" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+            </div>
+
+            <!-- contact form -->
+            <div class="contact-form">
+                <form method="post" action="/contact">
+                    {% csrf_token %}
+                    <div class="input-box">
+                        <input type="text" name="name" placeholder="Full Name">
+                        <input type="number" name="phone" placeholder="Mobile Number">
+                    </div>
+
+                    <div class="input-box">
+                        <input type="email" name="email" placeholder="Email Address">
+                        <input type="text" name="esubject" placeholder="Email Subject">
+                    </div>
+                    <textarea cols="20" rows="10" name="message" placeholder="Enter Message"></textarea>
+                    <input type="submit" value="Send Message" class="send-btn">
+                </form>
+            </div>
+        </div>
+    </section>
+    <!-- section for contact end -->
+
+
+    
+    <!-- footar start -->
+    <footer class="footer">
+        <div class="footer-text">
+            <p>Copyright &copy; 2023 by <span> RoadSide-Runner . </span> | All Rights Reserved</p>
+            <p>Developed By <span> Farukh Khan </span>|<span> Mitali Purohit </span>|<span> Gulshad Shah</span></p>
+            <p>For - <span><a href="/admin" target="_blank">Admin</a></span></p>
+        </div>
+        <div class="footer-iconTop">
+            <a href="#top"><i class="fa-solid fa-arrow-up"></i></a>
+        </div>
+    </footer>
+    <!-- footar end -->
+
+    <!-- login modal start -->
+    {% comment %} <div class="modal fade" id="loginmodal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+
+                    <div class="myform">
+                        <h1 class="text-center">Login</h1>
+                        <form action="#">
+                            <div class="form-inside">
+                                <label for="username">Username</label>
+                                <input type="text" class="form-control" placeholder="Enter Username" required>
+                            </div>
+                            <div class="form-inside">
+                                <label for="password">Password</label>
+                                <input type="password" class="form-control" placeholder="Enter Password" required>
+                            </div>
+                            <div class="form-inside check-rem">
+                                <p> <input type="checkbox"> Remember Me </p>
+                                <p>Forgot <a href="#">Password</a></p>
+                            </div>
+                            <div class="form-inside">
+                                <input type="submit" class="btn-mod" value="Login">
+                            </div>
+
+                            <div class="form-inside sign-uform">
+                                <p> Don't have Account? <a href="#" data-bs-toggle="modal" data-bs-target="#signupmodal">Signup</a> </p>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> {% endcomment %}
+    <!-- login modal end -->
+
+
+
+    <!-- signup modal start -->
+    {% comment %} <div class="modal fade" id="signupmodal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content signup-content">
+                <div class="modal-body">
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+
+                    <div class="myform">
+                        <h1 class="text-center">Signup</h1>
+                        <form action="#">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-inside">
+                                        <label for="firstname">First Name</label>
+                                        <input type="text" class="form-control" placeholder="Enter first Name" required>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-inside">
+                                        <label for="lastname">Last Name</label>
+                                        <input type="text" class="form-control" placeholder="Enter Last Name" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-inside">
+                                        <label for="email">Email</label>
+                                        <input type="email" class="form-control" placeholder="Enter Email" required>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-inside gender-lab">
+                                        <label for="gender">Gender</label> <br>
+                                        <p><input type="radio" name="gender">Male</p>
+                                        <p><input type="radio" name="gender">Female</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-inside add-input">
+                                        <label for="address">Address</label>
+                                        <input type="text" class="form-control" placeholder="Enter Address" required>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-inside">
+                                        <label for="username">Username</label>
+                                        <input type="text" class="form-control user-lab" placeholder="Enter Username" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-inside">
+                                        <label for="password">Password</label>
+                                        <input type="password" class="form-control" placeholder="Enter Password" required>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-inside">
+                                        <label for="cpassword">Confirm Password</label>
+                                        <input type="password" class="form-control" placeholder="Enter Confirm Password" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-inside">
+                                        <input type="submit" class="btn-mod" value="Signup">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-inside">
+                                        <input type="reset" class="btn-mod" value="Reset">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <hr style="color: #0ef;">
+
+                            <div class="form-inside sign-uform">
+                                <p>Already have Account? <a href="#" data-bs-toggle="modal" data-bs-target="#loginmodal">Login</a> </p>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> {% endcomment %}
+    <!-- signup modal end -->
+
+    <script src="{% static 'js/jquery.js' %}"></script>
+    <script src="{% static 'js/popper.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+
+    <script src="{% static 'js/bootstrap.js' %}"></script>
+    <script src="{% static 'js/bootstrap.bundle.js' %}"></script>
+    <script src="{% static 'js/all.min.js' %}"></script>
+    
+    <!-- scroll revel file -->
+    <!-- for online -->
+    <script src="https://unpkg.com/scrollreveal"></script>
+
+    <!-- slideshow javascript -->
+    <script src="{% static 'js/slideshow.js' %}"></script>
+
+    <!-- scrolling javascript -->
+    <script src="{% static 'js/script.js' %}"></script>
+</body>
+
+</html>

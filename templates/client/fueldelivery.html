@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block title %} Service | Fual-Delivery{% endblock title %}
+
+{% block body %}
+
+<section class="service-request" id="services">
+    <div class="service-request-head">
+        <h2 class="heading">Services</h2>
+        <p>Let us help you get back on the road & BACK TO LIFE!</p>
+    </div>
+
+    <div class="service-request-container">
+        <div class="service-request-box">
+            <div class="service-request-icon">
+                <i class="fa-solid fa-gas-pump icon-tada"></i>
+            </div>
+            <h3>Diesel</h3>
+            <p>If you are need to Diesel Fuel on the road. We can Delivery the Fuel.</p>
+            <div class="service-request-re">
+                <a href="{% url 'location' %}" class="btn-service-request">Choose Location</a>
+            </div>
+        </div>
+
+        <div class="service-request-box">
+            <div class="service-request-icon">
+                <i class="fa-solid fa-gas-pump icon-tada"></i>
+            </div>
+            <h3>Petrol</h3>
+            <p>If you are need to Petrol Fuel on the road. We can Delivery the Fuel. </p>
+            <div class="service-request-re">
+                <a href="{% url 'location' %}" class="btn-service-request">Choose Location</a>
+            </div>
+        </div>
+
+        <div class="service-request-box">
+            <div class="service-request-icon">
+                <i class="fa-solid fa-gas-pump icon-tada"></i>
+            </div>
+            <h3>CNG Gas</h3>
+            <p>If you are need to CNG Gas on the road. We can Delivery the Fuel.</p>
+            <div class="service-request-re">
+                <a href="{% url 'location' %}" class="btn-service-request">Choose Location</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock body %}

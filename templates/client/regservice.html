@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Roadside-VA</title>
+
+    <link rel="stylesheet" href="css/all.min.css">
+    <link rel="stylesheet" href="css/bootstrap.css" />
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/bootstrap-grid.css" />
+    <link rel="stylesheet" href="css/style.css" />
+
+    <script src="js/all.min.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script src="js/bootstrap.bundle.js"></script>
+    <script src="js/jquery.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/popper.min.js"></script>
+</head>
+
+<body>
+    <!-- header start -->
+    <header class="header">
+        <div class="logo">
+            <a href="#"><img src="images/Tools_40px.png" alt="tools" />OnRoadVA<img src="images/gas_station_40px.png" alt="fuel" /></a>
+        </div>
+
+        <i class="fa-solid fa-bars" id="menu-icon" onclick="myFunction()"></i>
+
+        <div class="con-head">
+            <nav class="navbar">
+                <a href="#home" class="active">Home</a>
+                <a href="#about">About</a>
+                <a href="#services">Services</a>
+                <a href="#client">Our-Client</a>
+                <a href="#contact">Contact</a>
+            </nav>
+
+            <div class="log-info">
+                <a href="#" class="btn btn-outline-dark btn-lg" data-bs-toggle="modal" data-bs-target="#loginmodal">Login</a>
+                <a href="#" class="btn btn-outline-dark btn-lg" data-bs-toggle="modal" data-bs-target="#signupmodal">Signup</a>
+            </div>
+        </div>
+    </header>
+    <!-- header end -->
+
+    <!-- for back to top span start -->
+    <span id="top"></span>
+    <!-- for back to top span end -->
+
+    <!-- section for location start -->
+    <section class="service-request" id="services">
+        <div class="service-request-head">
+            <h2 class="heading">What service do you need?</h2>
+            <!-- <p>How can we help? Start Here... In which service area are you located?</p> -->
+        </div>
+    </section>
+    <!-- section for location end -->
+
+
+    <!-- footar start -->
+    <footer class="footer">
+        <div class="footer-text">
+            <p>Copyright &copy; 2023 by <span> ORoadVA. </span> | All Rights Reserved</p>
+            <p>Design By <span> Farukh Khan </span>|<span> Mitali Purohit </span>|<span> Gulshad Shah</span></p>
+        </div>
+        <div class="footer-iconTop">
+            <a href="#top"><i class="fa-solid fa-arrow-up"></i></a>
+        </div>
+    </footer>
+    <!-- footar end -->
+
+    <!-- login modal start -->
+    <div class="modal fade" id="loginmodal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+
+                    <div class="myform">
+                        <h1 class="text-center">Login</h1>
+                        <form action="#">
+                            <div class="form-inside">
+                                <label for="username">Username</label>
+                                <input type="text" class="form-control" placeholder="Enter Username" required>
+                            </div>
+                            <div class="form-inside">
+                                <label for="password">Password</label>
+                                <input type="password" class="form-control" placeholder="Enter Password" required>
+                            </div>
+                            <div class="form-inside check-rem">
+                                <p> <input type="checkbox"> Remember Me </p>
+                                <p>Forgot <a href="#">Password</a></p>
+                            </div>
+                            <div class="form-inside">
+                                <input type="submit" class="btn-mod" value="Login">
+                            </div>
+
+                            <div class="form-inside sign-uform">
+                                <p> Don't have Account? <a href="#" data-bs-toggle="modal" data-bs-target="#signupmodal">Signup</a> </p>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- login modal end -->
+
+
+
+    <!-- signup modal start -->
+    <div class="modal fade" id="signupmodal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content signup-content">
+                <div class="modal-body">
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+
+                    <div class="myform">
+                        <h1 class="text-center">Signup</h1>
+                        <form action="#">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-inside">
+                                        <label for="firstname">First Name</label>
+                                        <input type="text" class="form-control" placeholder="Enter first Name" required>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-inside">
+                                        <label for="lastname">Last Name</label>
+                                        <input type="text" class="form-control" placeholder="Enter Last Name" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-inside">
+                                        <label for="email">Email</label>
+                                        <input type="email" class="form-control" placeholder="Enter Email" required>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-inside gender-lab">
+                                        <label for="gender">Gender</label> <br>
+                                        <p><input type="radio" name="gender">Male</p>
+                                        <p><input type="radio" name="gender">Female</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-inside add-input">
+                                        <label for="address">Address</label>
+                                        <input type="text" class="form-control" placeholder="Enter Address" required>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-inside">
+                                        <label for="username">Username</label>
+                                        <input type="text" class="form-control user-lab" placeholder="Enter Username" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-inside">
+                                        <label for="password">Password</label>
+                                        <input type="password" class="form-control" placeholder="Enter Password" required>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-inside">
+                                        <label for="cpassword">Confirm Password</label>
+                                        <input type="password" class="form-control" placeholder="Enter Confirm Password" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-inside">
+                                        <input type="submit" class="btn-mod" value="Signup">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-inside">
+                                        <input type="reset" class="btn-mod" value="Reset">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <hr style="color: #0ef;">
+
+                            <div class="form-inside sign-uform">
+                                <p>Already have Account? <a href="#" data-bs-toggle="modal" data-bs-target="#loginmodal">Login</a> </p>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- signup modal end -->
+
+
+    <!-- scroll revel file -->
+    <!-- for online -->
+    <script src="https://unpkg.com/scrollreveal"></script>
+
+    <!-- slideshow javascript -->
+    <script src="js/slideshow.js"></script>
+
+    <!-- scrolling javascript -->
+    <script src="js/script.js"></script>
+</body>
+
+</html>

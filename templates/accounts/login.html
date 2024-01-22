@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block title %} Login | RoadSideRunner {% endblock title %}
+
+{% block body %}
+
+    <section class="login_form">
+        <div class="myform-login">
+            <h1 class="text-center">Login</h1>
+            <form action="login" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-inside">
+                    <label for="role">Role</label>
+                    <select name="role" class="form-control" id="role" required>
+                        <option value="as_a">AS A</option>
+                        <option value="user">USER</option>
+                        <option value="mechanic">MECHANIC</option>
+                        <option value="fual_station">FUAL STATION</option>
+                    </select>
+                </div>
+                <div class="form-inside">
+                    <label for="username">Username</label>
+                    <input type="text" name="username" class="form-control" placeholder="Enter Username" required>
+                </div>
+                <div class="form-inside">
+                    <label for="password">Password</label>
+                    <input type="password" name="password" class="form-control" placeholder="Enter Password" required>
+                </div>
+                <div class="form-inside check-rem">
+                    <p> <input type="checkbox" required> Remember Me </p>
+                    <p>Forgot <a href="#">Password</a></p>
+                </div>
+                <div class="form-inside">
+                    <input type="submit" class="btn-mod" value="Login">
+                </div>
+
+                <div class="form-inside sign-uform">
+                    <p> Don't have Account? <a href="{% url 'register' %}">Signup</a> </p>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    {% endblock body %}

@@ -1,0 +1,290 @@
+{% extends 'base.html' %}
+{% block title %} Service {% endblock title %}
+
+
+{% block body %}
+{% load static %}
+{% if user.is_authenticated %}
+    <!-- section for services start -->
+    {% if user.userprofile.user_type == "user" %}
+    <section class="services" id="services">
+        <div class="service-head">
+            <h2 class="heading">Services</h2>
+        </div>
+
+        <div class="service-container">
+            <!-- <div class="service-box">
+                <div class="service-icon">
+                    <i class="fa-solid fa-key icon-tada"></i>
+                </div>
+                <h3>Service Name</h3>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet nam minima, est ab cum deleniti totam </p>
+                <div class="service-re">
+                    <a href="#" class="btn-service">Request Service</a>
+                </div>
+            </div> -->
+
+            <div class="service-box">
+                <div class="service-icon">
+                    <i class="fa-solid fa-screwdriver-wrench icon-tada"></i>
+                </div>
+                <h3>Break-Down</h3>
+                <p>We can provide any vehicle Services like: Vehicle Towing, Lockout, Tire Service, Jump start, engine problem and any of the vehicle problem on the roadside with the help of Registerd Mechanics. and can help of the user.</p>
+                <div class="service-re">
+                    <a href="{% url 'breakdown' %}" class="btn-service">Request Service</a>
+                </div>
+            </div>
+
+            <!-- <div class="service-box">
+                <div class="service-icon">
+                    <i class="fa-solid fa-car-battery icon-tada"></i>
+                </div>
+                <h3>Service Name</h3>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet nam minima, est ab cum deleniti totam </p>
+                <div class="service-re">
+                    <a href="#" class="btn-service">Request Service</a>
+                </div>
+            </div> -->
+
+            <div class="service-box">
+                <div class="service-icon">
+                    <i class="fa-solid fa-gas-pump icon-tada"></i>
+                </div>
+                <h3>Fuel-Delivery</h3>
+                <p>We can provide any types of Fuel like: Diesel, Petrol, CNG Gas and other of the fuel in the vehicle on the roadside. we can deliver the fuel on demand of the user with the help of fuel tank by Registerd Fuel Station. </p>
+                <div class="service-re">
+                    <a href="{% url 'fual' %}" class="btn-service">Request Service</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    {% endif %}
+    <!-- section for services end -->
+
+    {% if user.userprofile.user_type == "fual_station" %}
+    <section class="detail_service">
+        <div class="detail_service-head">
+            <h2 class="heading"> Fuel Station Details</h2>
+        </div>
+
+        <div class="detail_service-container">
+            <div class="detail_service_form">
+                <form action="" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="inp-group">
+                        {% if user.is_authenticated %}
+                            <input type="hidden" name="user_id" value="{{ user.id }}" class="form-control">
+                            {% else %}
+                            <input type="hidden" name="user_id" value="0" class="form-control">
+                        {% endif %}
+
+                        {% if user.is_authenticated %}
+                            <input type="hidden" name="userprofile_id" value="{{user.userprofile.id}}" class="form-control">
+                        {% endif %}
+                    </div>
+                    <div class="inp-group">
+                        <input type="hidden" name="lat" id="lat" class="form-control">
+                        <input type="hidden" name="lang" id="lang" class="form-control">
+                    </div>
+                    <div class="inp-group">
+                        <label for="name" class="form-label">Name</label>
+                        <input type="text" name="name" class="form-control" required>
+                    </div>
+
+                    <div class="inp-group">
+                        <label for="phone" class="form-label">Phone</label>
+                        <input type="number" name="phone" class="form-control" required>
+                    </div>
+
+                    <div class="inp-group">
+                        <label for="address" class="form-label">Address</label>
+                        <input type="text" name="address" class="form-control" required>
+                    </div>
+
+                    <div class="inp-group">
+                        <label for="pcode" class="form-label">Pin-Code</label>
+                        <input type="number" name="pcode" class="form-control" required>
+                    </div>
+
+                    <div class="inp-group">
+                        <label for="profile" class="form-label">Profile</label>
+                        <input type="file" name="profile" class="form-control" accept="image/*" required>
+                    </div>
+
+                    <div class="inp-group">
+                        <label for="service_type" class="form-label">Service Type</label>
+                        <select name="service_group" id="service_group" class="form-control" required>
+                            <option value="as_a">AS A</option>
+                            <option value="mechanic">MECHANIC</option>
+                            <option value="fual_station">FUAL STATION</option>
+                        </select>
+                    </div>
+
+                    <div class="inp-group">
+                        <label for="services" class="form-label">Services</label> <br>
+                        {% for services in service %}
+                       <p><input type="checkbox" name="service_name" class="form-check-input" value="{{services.services}}" required> {{services.services}}</p>
+                       {% endfor %}
+                    </div>
+
+                    <div class="inp-group">
+                        <label for="description" class="form-label">Description</label>
+                        <textarea name="description" id="description" cols="30" rows="10" class="form-control" required></textarea>
+                    </div>
+
+                    <input type="submit" class="btn-mod" value="Submit" id="submit_services" onclick="get_location()">
+                </form>
+            </div>
+        </div>
+    </section>
+    {% endif %}
+
+    {% if user.userprofile.user_type == "mechanic" %}
+    <section class="detail_service">
+        <div class="detail_service-head">
+            <h2 class="heading"> Mechanic Details</h2>
+        </div>
+
+        <div class="detail_service-container">
+            <div class="detail_service_form">
+                <form action="" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="inp-group">
+                        {% if user.is_authenticated %}
+                            <input type="hidden" name="user_id" value="{{ user.id }}" class="form-control">
+                            {% else %}
+                            <input type="hidden" name="user_id" value="0" class="form-control">
+                        {% endif %}
+
+                        {% if user.is_authenticated %}
+                            <input type="hidden" name="userprofile_id" value="{{user.userprofile.id}}" class="form-control">
+                        {% endif %}
+                    </div>
+                    <div class="inp-group">
+                        <input type="hidden" name="lat" id="lat" class="form-control">
+                        <input type="hidden" name="lang" id="lang" class="form-control">
+                    </div>
+                    <div class="inp-group">
+                        <label for="name" class="form-label">Name</label>
+                        <input type="text" name="name" class="form-control" required>
+                    </div>
+
+                    <div class="inp-group">
+                        <label for="phone" class="form-label">Phone</label>
+                        <input type="number" name="phone" class="form-control" required>
+                    </div>
+
+                    <div class="inp-group">
+                        <label for="address" class="form-label">Address</label>
+                        <input type="text" name="address" class="form-control" required>
+                    </div>
+
+                    <div class="inp-group">
+                        <label for="pcode" class="form-label">Pin-Code</label>
+                        <input type="number" name="pcode" class="form-control" required>
+                    </div>
+
+                    <div class="inp-group">
+                        <label for="profile" class="form-label">Profile</label>
+                        <input type="file" name="profile" class="form-control" accept="image/*" required>
+                    </div>
+
+                    <div class="inp-group">
+                        <label for="service_type" class="form-label">Service Type</label>
+                        <select name="service_group" id="service_group" class="form-control" required>
+                            <option value="as_a">AS A</option>
+                            <option value="mechanic">MECHANIC</option>
+                            <option value="fual_station">FUAL STATION</option>
+                        </select>
+                    </div>
+
+                    <div class="inp-group">
+                        <label for="services" class="form-label">Services</label> <br>
+                        {% for services in service %}
+                       <p><input type="checkbox" name="service_name" class="form-check-input" value="{{services.services}}" required> {{services.services}}</p>
+                       {% endfor %}
+                    </div>
+
+                    <div class="inp-group">
+                        <label for="description" class="form-label">Description</label>
+                        <textarea name="description" id="description" cols="30" rows="10" class="form-control" required></textarea>
+                    </div>
+
+                    <input type="submit" class="btn-mod" value="Submit" id="submit_services" onclick="get_location()">
+                </form>
+            </div>
+        </div>
+    </section>
+    {% endif %}
+    {% else %}
+    <section class="services" id="services">
+        <div class="service-head">
+            <h2 class="heading">Services</h2>
+        </div>
+
+        <div class="service-container">
+            <div class="service-box">
+                <div class="service-icon">
+                    <i class="fa-solid fa-screwdriver-wrench icon-tada"></i>
+                </div>
+                <h3>Break-Down</h3>
+                <p>We can provide any vehicle Services like: Vehicle Towing, Lockout, Tire Service, Jump start, engine problem and any of the vehicle problem on the roadside with the help of Registerd Mechanics. and can help of the user.</p>
+                <div class="service-re">
+                    <a href="{% url 'breakdown' %}" class="btn-service">Request Service</a>
+                </div>
+            </div>
+
+            <div class="service-box">
+                <div class="service-icon">
+                    <i class="fa-solid fa-gas-pump icon-tada"></i>
+                </div>
+                <h3>Fuel-Delivery</h3>
+                <p>We can provide any types of Fuel like: Diesel, Petrol, CNG Gas and other of the fuel in the vehicle on the roadside. we can deliver the fuel on demand of the user with the help of fuel tank by Registerd Fuel Station. </p>
+                <div class="service-re">
+                    <a href="{% url 'fual' %}" class="btn-service">Request Service</a>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endif %}
+
+
+<script type="text/javascript">
+	var watchId;
+	window.onload = function()
+	{
+
+			if (navigator.geolocation){
+
+				watchId = navigator.geolocation.watchPosition(onSuccess, onError,
+				{maximumAge:60*1000, timeout:5*60*1000, enableHighAccuracy:true});
+			}
+	}
+	function onSuccess(position){
+		var currentLat = position.coords.latitude;
+		var currentLong = position.coords.longitude;
+		document.getElementById("lat").value = currentLat;
+		document.getElementById("lang").value = currentLong;
+
+	}
+
+	function onError(error)
+	{
+		switch(error.code)
+		{
+			case PERMISSION_DENIED:
+				alert("User denied permission");
+				break;
+			case TIMEOUT:
+				alert("Geolocation timed out");
+				break;
+			case POSITION_UNAVAILABLE:
+				alert("Geolocation information is not available");
+				break;
+			default:
+				alert("Unknown error");
+				break;
+		}
+	}
+ </script>
+{% endblock body %}

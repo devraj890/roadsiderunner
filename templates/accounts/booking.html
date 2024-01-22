@@ -1,0 +1,163 @@
+{% extends 'base.html' %}
+{% block title %}Booking | RoadsideRunner{% endblock title %}
+
+{% block body %}
+    <section class="booking">
+        <div class="booking-head">
+            <h2 class="heading"> Booking Service</h2>
+        </div>
+
+        <div class="booking-container">
+            <div class="service-details">
+                <div class="mechanic-box">
+                    <div class="row">
+                        <div class="col-3">
+                            <div class="loc-log">
+                                {% comment %} <img src="{% static 'images/fuel-slide6.jpg' %}" alt="fual"> {% endcomment %}
+                                <img src="{{serviceprovider.profile.url}}">
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="mec-nm">
+                                {% comment %} <h3>Rohan Tow Services</h3>
+                                <p>Address</p> {% endcomment %}
+                                <h3>{{serviceprovider.name}}</h3>
+                                <p>{{serviceprovider.address}}</p>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            {% comment %} <h3>call us</h3>
+                            <p>9876543210</p> {% endcomment %}
+                            <div class="mec-ph">
+                                <p><a href="tel:+91{{serviceprovider.phone}}">{{serviceprovider.phone}}</a></p>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            {% comment %} <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis laudantium, dignissimos quam assumenda architecto impedit repudiandae enim vero ea tempora adipisci laboriosam nemo corporis natus eius doloremque totam! Odio, quae!</p> {% endcomment %}
+                            <div class="mec-dec">
+                                <p>{{serviceprovider.description}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="booking_form">
+                <form action="" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="book-inp">
+                        {% if user.is_authenticated %}
+                            <input type="hidden" name="user_id" value="{{ user.id }}" class="form-control">
+                            {% else %}
+                            <input type="hidden" name="user_id" value="0" class="form-control">
+                        {% endif %}
+
+                        {% if user.is_authenticated %}
+                            <input type="hidden" name="userprofile_id" value="{{user.userprofile.id}}" class="form-control">
+                        {% endif %}
+                    </div>
+                    <div class="book-inp">
+                        <input type="hidden" name="lat" id="lat" class="form-control">
+                        <input type="hidden" name="lang" id="lang" class="form-control">
+                    </div>
+
+                    <div class="book-inp">
+                        <input type="hidden" name="sprovider" class="form-control" value="{{serviceprovider.id}}">
+                    </div>
+                    <div class="book-inp">
+                        <label for="name" class="form-label">Name</label>
+                        <input type="text" name="name" class="form-control" value="{{request.user.get_full_name}}" required>
+                    </div>
+
+                    <div class="book-inp">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" name="email" class="form-control" value="{{request.user.email}}" required>
+                    </div>
+
+                    <div class="book-inp">
+                        <label for="phone" class="form-label">Phone</label>
+                        <input type="number" name="phone" class="form-control" value="{{request.user.userprofile.phone}}" required>
+                    </div>
+
+                    <div class="book-inp">
+                        <label for="service_type" class="form-label">Service Type</label>
+                        <select name="service_group" id="service_group" class="form-control">
+                            <option value="as_a">AS A</option>
+                            <option value="mechanic">MECHANIC</option>
+                            <option value="fual_station">FUAL STATION</option>
+                        </select>
+                    </div>
+
+                    <div class="book-inp">
+                        <label for="services" class="form-label">Services</label> <br>
+                        {% for services in service %}
+                       <p><input type="checkbox" name="service_name" class="form-check-input" value="{{services.services}}"> {{services.services}}</p>
+                       {% endfor %}
+                    </div>
+
+                    <div class="book-inp">
+                        <label for="vehicle_name" class="form-label">Vehicle Name</label>
+                        <input type="text" name="vehicle_name" class="form-control" required>
+                    </div>
+
+                    <div class="book-inp">
+                        <label for="vehicle_model" class="form-label">Vehicle Model</label>
+                        <input type="text" name="vehicle_model" class="form-control" required>
+                    </div>
+
+                    <div class="book-inp">
+                        <label for="vehicle_image" class="form-label">Vehicle image</label>
+                        <input type="file" name="vehicle_image" class="form-control" accept="image/*">
+                    </div>
+
+                    <div class="book-inp">
+                        <label for="note" class="form-label">Note</label>
+                        <textarea name="note" id="note" cols="30" rows="10" class="form-control"></textarea>
+                    </div>
+
+                    <input type="submit" class="btn-mod" value="Book Now" id="submit_services" onclick="get_location()">
+                </form>
+            </div>
+        </div>
+    </section>
+
+
+    <script type="text/javascript">
+        var watchId;
+        window.onload = function()
+        {
+    
+                if (navigator.geolocation){
+    
+                    watchId = navigator.geolocation.watchPosition(onSuccess, onError,
+                    {maximumAge:60*1000, timeout:5*60*1000, enableHighAccuracy:true});
+                }
+        }
+        function onSuccess(position){
+            var currentLat = position.coords.latitude;
+            var currentLong = position.coords.longitude;
+            document.getElementById("lat").value = currentLat;
+            document.getElementById("lang").value = currentLong;
+    
+        }
+    
+        function onError(error)
+        {
+            switch(error.code)
+            {
+                case PERMISSION_DENIED:
+                    alert("User denied permission");
+                    break;
+                case TIMEOUT:
+                    alert("Geolocation timed out");
+                    break;
+                case POSITION_UNAVAILABLE:
+                    alert("Geolocation information is not available");
+                    break;
+                default:
+                    alert("Unknown error");
+                    break;
+            }
+        }
+     </script>
+{% endblock body %}

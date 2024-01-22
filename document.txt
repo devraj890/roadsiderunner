@@ -1,0 +1,4 @@
+intall python
+then intall django 
+intall mysqliclient
+intall pillow

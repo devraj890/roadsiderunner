@@ -1,0 +1,247 @@
+{% extends 'base.html' %}
+{% block title %} Service {% endblock title %}
+{% block serviceactive %} active {% endblock serviceactive %}
+
+{% block body %}
+{% load static %}
+
+    {% comment %} <!-- section for location start -->
+    <section class="service-request" id="services">
+        <div class="service-request-head">
+            <h2 class="heading">Locations</h2>
+            <p>How can we help? Start Here... In which service area are you located?</p>
+        </div>
+    </section>
+    <!-- section for location end --> {% endcomment %}
+
+        <!-- section for location start -->
+        <section class="location" id="services">
+            <div class="location-head">
+                <!-- <h2 class="heading">Locations</h2> -->
+                <p>How can we help? Start Here... In which service area are you located?</p>
+            </div>
+    
+            <div class="location-container">
+                <div class="card center-card">
+                    <!-- <div class="card-header">
+                        <p> Vehicle Break Down Assistance </p>
+                    </div> -->
+                    <div class="card-body">
+                        <img src="{% static 'images/location_dot.gif' %}" class="card-img-top w-25">
+                        <h3 class="card-title">Locate Nearest Mechanics</h3>
+                        <p class="card-text">Click on the bellow button and allow Location Permission.</p>
+                        <div class="bg-danger">
+                            <span id="error"></span>
+                            <form id="contact-form" action="/location/" method="post" style="display: none">
+                                {% csrf_token %}
+                                <input type="text" id="lat" name="lat">
+                                <input type="text" id="lang" name="lang">
+                                <input type="submit" value="Submit">
+                            </form>
+                        </div>
+                        <div class="location-br">
+                            <a onclick="getLocation()" class="btn-location">Locate </a>
+                        </div>
+                    </div>
+                    <!-- <div class="card-footer">
+                        <p> Drive with confidence knowing that our 24/7 vehicle breakdown assistance is just a tap away. Stay safe on the road with our reliable and fast service.</p>
+                    </div> -->
+                </div>
+    
+                <div class="mechanic-block" id="mechanic-bl">
+                    <div class="location-body-head">
+                        <!-- <h2 class="heading">Locations</h2> -->
+                        <h5>List of Your Nearest Location Mechanic</h5>
+                        <p>Choose and get Service</p>
+                    </div>
+        
+                    <div class="mechanic-list">
+                        {% for mechanic in mechanics %}
+                        <div class="mechanic-box">
+                            <div class="row">
+                                <div class="col-2">
+                                    <div class="loc-log">
+                                        {% comment %} <img src="{% static 'images/fuel-slide6.jpg' %}" alt="fual"> {% endcomment %}
+                                        <img src="{{mechanic.profile.url}}">
+                                    </div>
+                                </div>
+                                <div class="col-2">
+                                    <div class="mec-nm">
+                                        {% comment %} <h3>Rohan Tow Services</h3>
+                                        <p>Address</p> {% endcomment %}
+                                        <h3>{{mechanic.name}}</h3>
+                                        <p>{{mechanic.address}}</p>
+                                    </div>
+                                </div>
+                                <div class="col-1">
+                                    {% comment %} <h3>call us</h3>
+                                    <p>9876543210</p> {% endcomment %}
+                                    <div class="mec-ph">
+                                        <p><a href="tel:+91{{mechanic.phone}}">{{mechanic.phone}}</a></p>
+                                    </div>
+                                </div>
+                                <div class="col-2">
+                                    {% comment %} <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis laudantium, dignissimos quam assumenda architecto impedit repudiandae enim vero ea tempora adipisci laboriosam nemo corporis natus eius doloremque totam! Odio, quae!</p> {% endcomment %}
+                                    <div class="mec-dec">
+                                        <p>{{mechanic.description}}</p>
+                                    </div>
+                                </div>
+                                <div class="col-1">
+                                    {% comment %} <h3>Distance in KM</h3>
+                                    <p>1</p> {% endcomment %}
+                                    <div class="mec-distan">
+                                        <h3>{{mechanic.distance|floatformat}} KM</h3>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="mec-bt">
+                                        <a href="/accounts/booking/{{mechanic.id}}" class="btn-location">Get Service</a>
+                                        <a href="{{mechanic.url}}" target="_blank" class="btn-location">Distance</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+    
+                <div class="fuelstation-block" id="fuelstation-bl">
+                    <div class="location-body-head">
+                        <!-- <h2 class="heading">Locations</h2> -->
+                        <h5>List of Your Nearest Location Fual Station</h5>
+                        <p>Choose and Order Fual</p>
+                    </div>
+        
+                    <div class="fualstation-list">
+
+                        {% comment %} <div class="fualstation-box">
+                            <div class="row">
+                                <div class="col-2">
+                                    <div class="loc-log">
+                                        <img src="{% static 'images/fuel-slide6.jpg' %}" alt="fual">
+                                    </div>
+                                </div>
+                                <div class="col-2">
+                                    <h3>Rohan Tow Services</h3>
+                                    <p>Address</p>
+                                    <a href="#">Details</a>
+                                </div>
+                                <div class="col-2">
+                                    <h3>call us</h3>
+                                    <p>9876543210</p>
+                                </div>
+                                <div class="col-2">
+                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis laudantium, dignissimos quam assumenda architecto impedit repudiandae enim vero ea tempora adipisci laboriosam nemo corporis natus eius doloremque totam! Odio, quae!</p>
+                                </div>
+                                <div class="col-2">
+                                    <h3>Distance in KM</h3>
+                                    <p>1</p>
+                                </div>
+                                <div class="col-2">
+                                    <button class="btn-location">Book Fuel</button>
+                                </div>
+                            </div>
+                        </div> {% endcomment %}
+
+                        {% for fuelstation in fuelstations %}
+                        <div class="fualstation-box">
+                            <div class="row">
+                                <div class="col-2">
+                                    <div class="loc-log">
+                                        {% comment %} <img src="{% static 'images/fuel-slide6.jpg' %}" alt="fual"> {% endcomment %}
+                                        <img src="{{fuelstation.profile.url}}">
+                                    </div>
+                                </div>
+                                <div class="col-2">
+                                    <div class="mec-nm">
+                                        {% comment %} <h3>Rohan Tow Services</h3>
+                                        <p>Address</p> {% endcomment %}
+                                        <h3>{{fuelstation.name}}</h3>
+                                        <p>{{fuelstation.address}}</p>
+                                    </div>
+                                </div>
+                                <div class="col-1">
+                                    {% comment %} <h3>call us</h3>
+                                    <p>9876543210</p> {% endcomment %}
+                                    <div class="mec-ph">
+                                        <p><a href="tel:+91{{fuelstation.phone}}">{{fuelstation.phone}}</a></p>
+                                    </div>
+                                </div>
+                                <div class="col-2">
+                                    {% comment %} <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Omnis laudantium, dignissimos quam assumenda architecto impedit repudiandae enim vero ea tempora adipisci laboriosam nemo corporis natus eius doloremque totam! Odio, quae!</p> {% endcomment %}
+                                    <div class="mec-dec">
+                                        <p>{{fuelstation.description}}</p>
+                                    </div>
+                                </div>
+                                <div class="col-1">
+                                    {% comment %} <h3>Distance in KM</h3>
+                                    <p>1</p> {% endcomment %}
+                                    <div class="mec-distan">
+                                        <h3>{{fuelstation.distance|floatformat}} KM</h3>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="mec-bt">
+                                        <a href="/accounts/booking/{{fuelstation.id}}" class="btn-location">Get Service</a>
+                                        <a href="{{fuelstation.url}}" target="_blank" class="btn-location">Distance</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+    
+            </div>
+        </section>
+        <!-- section for location end -->
+
+
+        <script>
+            var x = document.getElementById("error");
+            var form = document.getElementById("contact-form");
+            var lat = document.getElementById("lat");
+            var lang = document.getElementById("lang");
+            var mechanic_bl = document.getElementById("mechanic-bl");
+            var fuelstation_bl = document.getElementById("fuelstation-bl");
+        
+            var submitted = localStorage.getItem("submitted");
+            if (submitted) {
+                mechanic_bl.style.display = "block";
+                fuelstation_bl.style.display = "block";
+            }
+            
+            function getLocation() {
+              if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition, showError);
+              } else { 
+                x.innerHTML = "Geolocation is not supported by this browser.";
+              }
+            }
+            
+            function showPosition(position) {
+              lat.value = position.coords.latitude;
+              lang.value = position.coords.longitude;
+              form.submit();
+              localStorage.setItem("submitted", true);
+            }
+            
+            function showError(error) {
+              switch(error.code) {
+                case error.PERMISSION_DENIED:
+                  x.innerHTML = "User denied the request for Geolocation."
+                  break;
+                case error.POSITION_UNAVAILABLE:
+                  x.innerHTML = "Location information is unavailable."
+                  break;
+                case error.TIMEOUT:
+                  x.innerHTML = "The request to get user location timed out."
+                  break;
+                case error.UNKNOWN_ERROR:
+                  x.innerHTML = "An unknown error occurred."
+                  break;
+              }
+            }
+            </script>
+
+{% endblock %}

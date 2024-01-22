@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}Feedback | RoadsideRunner{% endblock title %}
+
+{% block body %}
+    <section class="feedback">
+        <div class="feedback-head">
+            <h2 class="heading">Feedback Now</h2>
+        </div>
+
+        <div class="feedback-container">
+            <div class="feedback-form">
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="user" value="{{request.user.id}}">
+                    <div class="feed-inp">
+                        <label for="name" class="form-label">Name</label>
+                        <input type="text" name="name" class="form-control" value="{{request.user.get_full_name}}">
+                    </div>
+
+                    <div class="feed-inp">
+                        <label for="rating" class="form-label">Rating</label>
+                        <select name="rating" id="rating" class="form-control">
+                            <option value="default" selected>Give Rating</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                    </div>
+
+                    <div class="feed-inp">
+                        <label for="message" class="form-label">Message</label>
+                        <textarea name="message" id="message" cols="30" rows="10" class="form-control"></textarea>
+                    </div>
+
+                    <input type="submit" value="Submit" class="btn-mod">
+                </form>
+            </div>
+        </div>
+    </section>
+{% endblock body %}

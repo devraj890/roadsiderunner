@@ -1,0 +1,310 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %} {% endblock title %}</title>
+
+    <link rel="stylesheet" href="{% static 'css/all.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/bootstrap-grid.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+
+    <!-- box icon -->
+    <!-- for online -->
+    <!-- <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" /> -->
+
+    <!-- for ofline -->
+    <!-- <link rel="stylesheet" href="css/boxicons.css">
+    <link rel="stylesheet" href="css/boxicons.min.css">
+    <link rel="stylesheet" href="css/transformations.css">
+    <link rel="stylesheet" href="css/animations.css"> -->
+
+
+    <!-- scroll revel file -->
+    <!-- <script src="js/scrollreveal.js"></script> -->
+
+</head>
+
+<body>
+    <!-- header start -->
+    <header class="header">
+        <div class="logo">
+            {% comment %} <a href="#"><img src="{% static 'images/Tools_40px.png' %}"/>OnRoadVA<img src="{% static 'images/gas_station_40px.png' %}"/></a> {% endcomment %}
+            <a href="{% url 'home' %}"><i class="fa-solid fa-screwdriver-wrench"></i>RoadSide-Runner<i class="fa-solid fa-gas-pump"></i></a>
+        </div>
+
+        <i class="fa-solid fa-bars" id="menu-icon" onclick="myFunction()"></i>
+
+        <div class="con-head">
+            <nav class="navbar">
+                {% if user.is_authenticated %}
+                    {% if user.userprofile.user_type == "user" %}
+                    <a href="{% url 'home' %}" class="{% if request.path == '/' %}active{% endif %}">Home</a>
+                    <a href="{% url 'about' %}" class="{% if request.path == '/about/' %}active{% endif %}">About</a>
+                    <a href="{% url 'service' %}" class="{% if request.path == '/service/' %}active{% endif %} {% if request.path == '/location/' %}active{% endif %} {% if request.path ==  '/breakdown/'%}active{% endif %} {% if request.path == '/fual/' %}active{% endif %}">Services</a>
+                    <a href="{% url 'servicerequest' %}" class="{% if request.path == '/accounts/servicerequest' %}active{% endif %}">Request</a>
+                    {% comment %} <a href="{% url 'booking' %}" class="{% if request.path == '/accounts/booking' %}active{% endif %}">Booking</a> {% endcomment %}
+                    <a href="{% url 'feedback' %}" class="{% if request.path == '/feedback' %}active{% endif %}">feedback</a>
+                    <a href="{% url 'home' %}" class="{% if request.path == '/' %}active{% endif %}">Our-Client</a>
+                    <a href="{% url 'home' %}" class="{% if request.path == '/' %}active{% endif %}">Contact</a>
+                    {% endif %}
+
+                    {% if user.userprofile.user_type == "fual_station" %}
+                    <a href="{% url 'home' %}" class="{% if request.path == '/' %}active{% endif %}">Home</a>
+                    <a href="{% url 'about' %}" class="{% if request.path == '/about/' %}active{% endif %}">About</a>
+                    <a href="{% url 'service' %}" class="{% if request.path == '/service/' %}active{% endif %} {% if request.path == '/location/' %}active{% endif %} {% if request.path ==  '/breakdown/'%}active{% endif %} {% if request.path == '/fual/' %}active{% endif %}">Services</a>
+                    <a href="{% url 'servicerequest' %}" class="{% if request.path == '/accounts/servicerequest' %}active{% endif %}">Request</a>
+                    {% comment %} <a href="#">Booking</a> {% endcomment %}
+                    {% comment %} <a href="#">feedback</a> {% endcomment %}
+                    <a href="{% url 'home' %}" class="{% if request.path == '/' %}active{% endif %}">Our-Client</a>
+                    <a href="{% url 'home' %}" class="{% if request.path == '/' %}active{% endif %}">Contact</a>
+                    {% endif %}
+
+                    {% if user.userprofile.user_type == "mechanic" %}
+                    <a href="{% url 'home' %}" class="{% if request.path == '/' %}active{% endif %}">Home</a>
+                    <a href="{% url 'about' %}" class="{% if request.path == '/about/' %}active{% endif %}">About</a>
+                    <a href="{% url 'service' %}" class="{% if request.path == '/service/' %}active{% endif %} {% if request.path == '/location/' %}active{% endif %} {% if request.path ==  '/breakdown/'%}active{% endif %} {% if request.path == '/fual/' %}active{% endif %}">Services</a>
+                    <a href="{% url 'servicerequest' %}" class="{% if request.path == '/accounts/servicerequest' %}active{% endif %}">Request</a>
+                    {% comment %} <a href="#">Booking</a> {% endcomment %}
+                    {% comment %} <a href="#">feedback</a> {% endcomment %}
+                    <a href="{% url 'home' %}" class="{% if request.path == '/' %}active{% endif %}">Our-Client</a>
+                    <a href="{% url 'home' %}" class="{% if request.path == '/' %}active{% endif %}">Contact</a>
+                    {% endif %}
+                    
+                    {% else %}
+                    <a href="{% url 'home' %}" class="{% if request.path == '/' %}active{% endif %}">Home</a>
+                    <a href="{% url 'about' %}" class="{% if request.path == '/about/' %}active{% endif %}">About</a>
+                    <a href="{% url 'service' %}" class="{% if request.path == '/service/' %}active{% endif %} {% if request.path == '/location/' %}active{% endif %} {% if request.path ==  '/breakdown/'%}active{% endif %} {% if request.path == '/fual/' %}active{% endif %}">Services</a>
+                    <a href="{% url 'home' %}" class="{% if request.path == '/' %}active{% endif %}">Our-Client</a>
+                    <a href="{% url 'home' %}" class="{% if request.path == '/' %}active{% endif %}">Contact</a>
+                {% endif %}
+            </nav>
+
+            {% comment %} <div class="log-info">
+                <a href="#" class="btn btn-outline-dark btn-lg" data-bs-toggle="modal" data-bs-target="#loginmodal">Login</a>
+                <a href="#" class="btn btn-outline-dark btn-lg" data-bs-toggle="modal" data-bs-target="#signupmodal">Signup</a>
+            </div> {% endcomment %}
+
+            <div class="log-info">
+                {% if user.is_authenticated %}
+                <ul class="navbar-nav mr-2">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href='#' id="navbarDropdown" role="button"
+                            data-bs-toggle="dropdown">
+                            Welcome - {{request.user}}
+                        </a>
+                        <div class="dropdown-menu log-out" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="{% url 'userprofile' %}">Your Profile</a>
+                            <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+                        </div>
+                    </li>
+                </ul>
+                {% else %}
+
+                <a href="{% url 'login' %}" class="btn btn-log btn-lg">Login</a>
+                <a href="{% url 'register' %}" class="btn btn-log btn-lg">Signup</a>
+
+                {% endif %}
+            </div>
+        </div>
+    </header>
+    <!-- header end -->
+
+    <!-- for back to top span start -->
+    <span id="top"></span>
+    <!-- for back to top span end -->
+
+    {% for message in messages %}
+    <div class="alt-aler">
+    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+        <strong>
+            {% if message.tags == "success" %}
+                Success : 
+            {% elif message.tags == "danger" %}
+                Error : 
+            {% endif %}
+            </strong>  {{ message }}.
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    </div>
+    {% endfor %}
+
+{% block body %}
+
+{% endblock body %}
+
+
+
+    
+    <!-- footar start -->
+    <footer class="footer">
+        <div class="footer-text">
+            <p>Copyright &copy; 2023 by <span> RoadSide-Runner. </span> | All Rights Reserved</p>
+            <p>Developed By <span> Devraj singh rajput</span>|<span> Mitali Purohit </span>|<span> Fharuk khan</span></p>
+            <p>For - <span><a href="/admin" target="_blank">Admin</a></span></p>
+        </div>
+        <div class="footer-iconTop">
+            <a href="#top"><i class="fa-solid fa-arrow-up"></i></a>
+        </div>
+    </footer>
+    <!-- footar end -->
+
+    <!-- login modal start -->
+    {% comment %} <div class="modal fade" id="loginmodal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+
+                    <div class="myform">
+                        <h1 class="text-center">Login</h1>
+                        <form action="#">
+                            <div class="form-inside">
+                                <label for="username">Username</label>
+                                <input type="text" class="form-control" placeholder="Enter Username" required>
+                            </div>
+                            <div class="form-inside">
+                                <label for="password">Password</label>
+                                <input type="password" class="form-control" placeholder="Enter Password" required>
+                            </div>
+                            <div class="form-inside check-rem">
+                                <p> <input type="checkbox"> Remember Me </p>
+                                <p>Forgot <a href="#">Password</a></p>
+                            </div>
+                            <div class="form-inside">
+                                <input type="submit" class="btn-mod" value="Login">
+                            </div>
+
+                            <div class="form-inside sign-uform">
+                                <p> Don't have Account? <a href="#" data-bs-toggle="modal" data-bs-target="#signupmodal">Signup</a> </p>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> {% endcomment %}
+    <!-- login modal end -->
+
+
+
+    <!-- signup modal start -->
+    {% comment %} <div class="modal fade" id="signupmodal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content signup-content">
+                <div class="modal-body">
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+
+                    <div class="myform">
+                        <h1 class="text-center">Signup</h1>
+                        <form action="#">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-inside">
+                                        <label for="firstname">First Name</label>
+                                        <input type="text" class="form-control" placeholder="Enter first Name" required>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-inside">
+                                        <label for="lastname">Last Name</label>
+                                        <input type="text" class="form-control" placeholder="Enter Last Name" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-inside">
+                                        <label for="email">Email</label>
+                                        <input type="email" class="form-control" placeholder="Enter Email" required>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-inside gender-lab">
+                                        <label for="gender">Gender</label> <br>
+                                        <p><input type="radio" name="gender">Male</p>
+                                        <p><input type="radio" name="gender">Female</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-inside add-input">
+                                        <label for="address">Address</label>
+                                        <input type="text" class="form-control" placeholder="Enter Address" required>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-inside">
+                                        <label for="username">Username</label>
+                                        <input type="text" class="form-control user-lab" placeholder="Enter Username" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-inside">
+                                        <label for="password">Password</label>
+                                        <input type="password" class="form-control" placeholder="Enter Password" required>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-inside">
+                                        <label for="cpassword">Confirm Password</label>
+                                        <input type="password" class="form-control" placeholder="Enter Confirm Password" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-inside">
+                                        <input type="submit" class="btn-mod" value="Signup">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-inside">
+                                        <input type="reset" class="btn-mod" value="Reset">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <hr style="color: #0ef;">
+
+                            <div class="form-inside sign-uform">
+                                <p>Already have Account? <a href="#" data-bs-toggle="modal" data-bs-target="#loginmodal">Login</a> </p>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> {% endcomment %}
+    <!-- signup modal end -->
+
+    <script src="{% static 'js/jquery.js' %}"></script>
+    <script src="{% static 'js/popper.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+
+    <script src="{% static 'js/bootstrap.js' %}"></script>
+    <script src="{% static 'js/bootstrap.bundle.js' %}"></script>
+    <script src="{% static 'js/all.min.js' %}"></script>
+
+
+    <!-- scroll revel file -->
+    <!-- for online -->
+    <script src="https://unpkg.com/scrollreveal"></script>
+
+    <!-- slideshow javascript -->
+    <script src="{% static 'js/slideshow.js' %}"></script>
+
+    <!-- scrolling javascript -->
+    <script src="{% static 'js/script.js' %}"></script>
+</body>
+
+</html>

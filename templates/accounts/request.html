@@ -1,0 +1,163 @@
+{% extends 'base.html' %}
+
+{% block title %}Request | RoadsideRunner{% endblock title %}
+
+{% block body %}
+<section class="request">
+    <div class="request-head">
+        <h2 class="heading">Service Request</h2>
+    </div>
+{% if user.is_authenticated %}
+    <div class="request-container">
+        {% if user.userprofile.user_type == 'user' %}
+        <div class="request-tab">
+            <table class="table table-dark table-hover">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>NAME</th>
+                    <th>PHONE</th>
+                    <th>SERVICE</th>
+                    <th>SERVICE-PROVIDER</th>
+                    <th>VEHICLE</th>
+                    <th>STATUS</th>
+                    {% comment %} <th>LOCATION</th> {% endcomment %}
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for details in booking_details %}
+                    <tr>
+                        <td>{{details.id}}</td>
+                        <td>{{details.name}}</td>
+                        <td>{{details.phone}}</td>
+                        <td>{{details.service_name}}</td>
+                        <td>{{details.sprovider}}</td>
+                        <td>{{details.vehicle_name}}</td>
+                        <td>{{details.status}}</td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
+
+        {% if user.userprofile.user_type == 'mechanic' %}
+        <div class="request-tab">
+            <table class="table">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>NAME</th>
+                    <th>PHONE</th>
+                    <th>SERVICE</th>
+                    <th>SERVICE-PROVIDER</th>
+                    <th>VEHICLE</th>
+                    <th>STATUS</th>
+                    <th>ACTION</th>
+                    <th>LOCATION</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for details in booking_mechanic %}
+                    <tr>
+                        <td>{{details.id}}</td>
+                        <td>{{details.name}}</td>
+                        <td>{{details.phone}}</td>
+                        <td>{{details.service_name}}</td>
+                        <td>{{details.sprovider}}</td>
+                        <td>{{details.vehicle_name}}</td>
+                        <td>
+                          {{details.status}}
+                          {% comment %} {% if details.status == '0' %}
+                            <span>Pending</span>
+                          {% endif %}
+                          {% if details.status == '1' %}
+                            <span>Approved</span>
+                          {% endif %}
+                          {% if details.status == '2' %}
+                            <span>Reject</span>
+                          {% endif %}
+                          {% if details.status == '3' %}
+                            <span>deliver_fuel</span>
+                          {% endif %}
+                          {% if details.status == '4' %}
+                            <span>completed_service</span>
+                          {% endif %}  {% endcomment %}
+
+                        </td>
+                        <td>
+                          <form action="" method="post">
+                              {% csrf_token %}
+                              <input type="hidden" name="user" value="{{details.user_id}}">
+                              <input type="hidden" name="userprofile" value="{{details.userprofile_id}}">
+                              <input type="hidden" name="booking_id" value="{{details.id}}">
+                              <select name="status" id="status" class="form-control">
+                                  <option value="pending">PENDING</option>
+                                  <option value="Approved">APPROVED</option>
+                                  <option value="reject">REJECT</option>
+                                  <option value="Completed_service">COMPLETED SERVICE</option>
+                              </select>
+                              <input type="submit" value="submit" class="btn btn-primary">
+                          </form>
+                        </td>
+                        <td><a href="{{user_location_url}}" target="_blank" class="btn btn-primary">Location</a>
+                        </td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
+
+        {% if user.userprofile.user_type == 'fual_station' %}
+        <div class="request-tab">
+            <table class="table table-dark table-hover">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>NAME</th>
+                    <th>PHONE</th>
+                    <th>SERVICE</th>
+                    <th>SERVICE-PROVIDER</th>
+                    <th>VEHICLE</th>
+                    <th>STATUS</th>
+                    <th>ACTION</th>
+                    <th>LOCATION</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for details in booking_fuelstation %}
+                    <tr>
+                        <td>{{details.id}}</td>
+                        <td>{{details.name}}</td>
+                        <td>{{details.phone}}</td>
+                        <td>{{details.service_name}}</td>
+                        <td>{{details.sprovider}}</td>
+                        <td>{{details.vehicle_name}}</td>
+                        <td>{{details.status}}</td>
+                        <td>
+                          <form action="" method="post">
+                              {% csrf_token %}
+                              <input type="hidden" name="user" value="{{details.user_id}}">
+                              <input type="hidden" name="userprofile" value="{{details.userprofile_id}}">
+                              <input type="hidden" name="booking_id" value="{{details.id}}">
+                              <select name="status" id="status" class="form-control">
+                                  <option value="pending">PENDING</option>
+                                  <option value="Approved">APPROVED</option>
+                                  <option value="reject">REJECT</option>
+                                  <option value="Deliver_fuel">DELIVER FUEL</option>
+                              </select>
+                              <input type="submit" value="submit" class="btn btn-primary">
+                          </form>
+                        </td>
+                        <td><a href="{{user_location_url}}" target="_blank" class="btn btn-primary">Location</a>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% endif %}
+    </div>
+    {% endif %}
+</section>
+{% endblock body %}

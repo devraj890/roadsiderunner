@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% block title %} Signup | RoadSideRunner {% endblock title %}
+
+{% block body %}
+    <section class="signup_form">
+        <div class="myform-signup">
+            <h1 class="text-center">Signup</h1>
+            <form action="register" method="post" enctype="multipart/form-data" >
+                {% csrf_token %}
+                <div class="form-inside">
+                    <label for="firstname">First Name</label>
+                    <input type="text" name="first_name" class="form-control" placeholder="Enter first Name" required>
+                </div>
+
+                <div class="form-inside">
+                    <label for="lastname">Last Name</label>
+                    <input type="text" name="last_name" class="form-control" placeholder="Enter Last Name" required>
+                </div>
+
+                <div class="form-inside">
+                    <label for="email">Email</label>
+                    <input type="email" name="email" class="form-control" placeholder="Enter Email" required>
+                </div>
+
+                <div class="form-inside">
+                    <label for="phone">Phone</label>
+                    <input type="number" name="phone" class="form-control" placeholder="Enter Phone" required>
+                </div>
+
+                <div class="form-inside gender-lab">
+                    <label for="gender">Gender</label> <br>
+                    <p><input type="radio" name="gender" value="male">Male</p>
+                    <p><input type="radio" name="gender" value="female">Female</p>
+                </div>
+
+                <div class="form-inside add-input">
+                    <label for="address">Address</label>
+                    <input type="text" name="address" class="form-control" placeholder="Enter Address" required>
+                </div>
+
+                <div class="form-inside">
+                    <label for="username">Username</label>
+                    <input type="text" name="username" class="form-control user-lab" placeholder="Enter Username" required>
+                </div>
+
+                <div class="form-inside">
+                    <label for="role">Role</label>
+                    <select name="role" class="form-control" id="role" required>
+                        <option value="as_a">AS A</option>
+                        <option value="user">USER</option>
+                        <option value="mechanic">MECHANIC</option>
+                        <option value="fual_station">FUAL STATION</option>
+                    </select>
+                </div>
+
+                <div class="form-inside">
+                    <label for="password">Password</label>
+                    <input type="password" name="password1" class="form-control" placeholder="Enter Password" required>
+                </div>
+
+                <div class="form-inside">
+                    <label for="cpassword">Confirm Password</label>
+                    <input type="password" name="password2" class="form-control" placeholder="Enter Confirm Password" required>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-inside">
+                            <input type="submit" class="btn-mod" value="Signup">
+                        </div>
+                    </div>
+                    
+                    <div class="col-sm-6">
+                        <div class="form-inside">
+                            <input type="reset" class="btn-mod" value="Reset">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-inside sign-uform">
+                    <p>Already have Account? <a href="{% url 'login' %}">Login</a>
+                    </p>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    {% endblock body %}

@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% block title %} User Profile | Roadside-Runner {% endblock title %}
+
+{% block body %}
+{% load static %}
+<section class="userprofile">
+    <div class="userprofile-head">
+        <h2 class="heading">Your Profile</h2>
+    </div>
+
+    <div class="userprofile-container">
+        <div class="userprofile-block">
+        <form action="{% url 'update_profile' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% if userprofile_data.profile_picture %}
+            <div class="userprofile-image">
+                <img src="{{userprofile_data.profile_picture.url}}">
+            </div>
+            {% endif %}
+            <div class="userprofile-details">
+                <h3>Profile</h3>
+                {% comment %} <p>{{user_data.first_name}}</p> {% endcomment %}
+                <p><input type="file" name="profile" accept="image/*" class="form-control"></p>
+            </div>
+
+            <div class="userprofile-details">
+                <h3>First Name</h3>
+                {% comment %} <p>{{user_data.first_name}}</p> {% endcomment %}
+                <p><input type="text" name="first_name" value="{{user_data.first_name}}" class="form-control"></p>
+            </div>
+
+            <div class="userprofile-details">
+                <h3>Last Name</h3>
+                <p><input type="text" name="last_name" value="{{user_data.last_name}}" class="form-control"></p>
+            </div>
+
+            <div class="userprofile-details">
+                <h3>Phone</h3>
+                <p><input type="number" name="phone" value="{{userprofile_data.phone}}" class="form-control"></p>
+            </div>
+
+            <div class="userprofile-details">
+                <h3>Email</h3>
+                <p><input type="email" name="email" value="{{user_data.email}}" class="form-control"></p>
+            </div>
+
+            <div class="userprofile-details">
+                <h3>Username</h3>
+                <p><input type="text" name="username" value="{{user_data.username}}" class="form-control"></p>
+            </div>
+
+            <div class="userprofile-details">
+                <h3>Address</h3>
+                <p><input type="text" name="address" value="{{userprofile_data.address}}" class="form-control"></p>
+            </div>
+
+            <div class="userprofile-details">
+                <h3>City</h3>
+                <p><input type="text" name="city" value="{{userprofile_data.city}}" class="form-control"></p>
+            </div>
+
+            <div class="userprofile-details">
+                <h3>Pin-Code</h3>
+                <p><input type="number" name="pcode" value="{{userprofile_data.postal_code}}" class="form-control"></p>
+            </div>
+
+            <div class="userprofile-details"> 
+                <div class="update-pro">
+                    {% comment %} <a href="#" class="btn-update">Upate</a> {% endcomment %}
+                    <input type="submit" class="btn-update" value="Update">
+                </div>
+            </div>
+        </form>
+        </div>
+    </div>
+</section>
+{% endblock body %}
